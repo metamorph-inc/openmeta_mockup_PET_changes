@@ -1,9 +1,7 @@
 {
   "components": {
-  
-  
 	# NEW MOCKUP CODE
-	"subproblems":{
+	"SubPET":{
 	  "components": {
 		"Paraboloid": {
 		  "parameters": {
@@ -56,7 +54,6 @@
 		  },
 		  "details": null,
 		  "type": #TBD - pointer to output for SubProblem declaration in higher level
-		}
 	  },
 	  "drivers": {
 		"Optimizer": {
@@ -97,6 +94,7 @@
 	  "PETName": "/Testing/ParametricExploration/SubPET",
 	  "MgaFilename": "C:\\Users\\Joseph Coombe\\Documents\\openmeta-PET-changes\\openmeta-PET-changes.mga"
 	}
+
 	# END OF NEW MOCKUP CODE
 	
 	
