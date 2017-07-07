@@ -14,7 +14,7 @@ it get's added to SubProblem's list of unknowns).
 
 #### Here's some psuedo JSON code `mockup_mdao_config.json` showing what the `mdao_config.json` file produced by 'Top' might look like:
   
-  ```
+  ```javascript
   {
   "components": {
   
