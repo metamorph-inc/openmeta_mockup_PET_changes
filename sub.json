@@ -1,0 +1,83 @@
+{
+  "components": {
+    "Paraboloid": {
+      "parameters": {
+        "y": {
+          "source": [
+            "Constants",
+            "INPUT_y"
+          ]
+        },
+        "x": {
+          "source": [
+            "Optimizer",
+            "x"
+          ]
+        }
+      },
+      "unknowns": {
+        "f_xy": {}
+      },
+      "details": {
+        "filename": "../../scripts/paraboloid.py"
+      },
+      "type": "run_mdao.python_component.PythonComponent"
+    },
+    "Inputs": {
+      "parameters": {},
+      "unknowns": {
+        "INPUT_y": {
+        }
+      },
+      "details": null,
+      "type": # TBD
+    }    
+	"Outputs": {
+      "parameters": {
+		"OUTPUT_f_xy"
+	  },
+      "unknowns": {}
+      },
+      "details": null,
+      "type": "IndepVarComp"
+    }
+  },
+  "drivers": {
+    "Optimizer": {
+      "type": "optimizer",
+      "designVariables": {
+        "x": {
+          "RangeMin": -50.0,
+          "RangeMax": 50.0
+        }
+      },
+      "objectives": {
+        "f_xy": {
+          "source": [
+            "Paraboloid",
+            "f_xy"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "",
+        "CustomOptimizer": "",
+        "OptimizationFunction": "COBYLA"
+      }
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv",
+      "include_id": true
+    }
+  ],
+  "SelectedConfigurations": [
+    "SubPET"
+  ],
+  "PETName": "/Testing/ParametricExploration/SubPET",
+  "MgaFilename": "C:\\Users\\Joseph Coombe\\Documents\\openmeta-PET-changes\\openmeta-PET-changes.mga"
+}

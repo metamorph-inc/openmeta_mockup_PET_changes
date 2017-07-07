@@ -1,0 +1,142 @@
+{
+  "components": {
+  
+  
+	# NEW MOCKUP CODE
+	"subproblems":{
+	  "components": {
+		"Paraboloid": {
+		  "parameters": {
+			"y": {
+			  "source": [
+				"Inputs",
+				"INPUT_y"
+			  ]
+			},
+			"x": {
+			  "source": [
+				"Optimizer",
+				"x"
+			  ]
+			}
+		  },
+		  "unknowns": {
+			"f_xy": {}
+		  },
+		  "details": {
+			"filename": "../../scripts/paraboloid.py"
+		  },
+		  "type": "run_mdao.python_component.PythonComponent"
+		},
+		"Inputs": {
+		  "parameters": {
+			"INPUT_y": {
+			  "source":[
+				#TBD - How do we best hook this up to the 'outside'?
+			  ]
+			}
+		  },
+		  "unknowns": {
+			"INPUT_y": {
+			}
+		  },
+		  "details": null,
+		  "type": "IndepVarComp"
+		}    
+		"Outputs": {
+		  "parameters": {
+			"OUTPUT_f_xy": {
+			  "source": [
+				"Paraboloid",
+				"f_xy"
+			  ]
+			}
+		  },
+		  "unknowns": {}
+		  },
+		  "details": null,
+		  "type": #TBD - pointer to output for SubProblem declaration in higher level
+		}
+	  },
+	  "drivers": {
+		"Optimizer": {
+		  "type": "optimizer",
+		  "designVariables": {
+			"x": {
+			  "RangeMin": -50.0,
+			  "RangeMax": 50.0
+			}
+		  },
+		  "objectives": {
+			"f_xy": {
+			  "source": [
+				"Paraboloid",
+				"f_xy"
+			  ]
+			}
+		  },
+		  "constraints": {},
+		  "intermediateVariables": {},
+		  "details": {
+			"Code": "",
+			"CustomOptimizer": "",
+			"OptimizationFunction": "COBYLA"
+		  }
+		}
+	  },
+	  "recorders": [
+		{
+		  "type": "DriverCsvRecorder",
+		  "filename": "output.csv",
+		  "include_id": true
+		}
+	  ],
+	  "SelectedConfigurations": [
+		"SubPET"
+	  ],
+	  "PETName": "/Testing/ParametricExploration/SubPET",
+	  "MgaFilename": "C:\\Users\\Joseph Coombe\\Documents\\openmeta-PET-changes\\openmeta-PET-changes.mga"
+	}
+	# END OF NEW MOCKUP CODE
+	
+	
+  },
+  "drivers": {
+    "ParameterStudy": {
+      "type": "parameterStudy",
+      "designVariables": {
+        "y": {
+          "RangeMin": -50.0,
+          "RangeMax": 50.0
+        }
+      },
+      "objectives": {
+        "f_xy": {
+          "source": [
+            "SubPET",
+            "f_xy"
+          ]
+        }
+      },
+      "constraints": {},
+      "intermediateVariables": {},
+      "details": {
+        "Code": "num_samples=20",
+        "SurrogateType": "None",
+        "DOEType": "Full Factorial"
+      }
+    }
+  },
+  "recorders": [
+    {
+      "type": "DriverCsvRecorder",
+      "filename": "output.csv",
+      "include_id": true
+    }
+  ],
+  "SelectedConfigurations": [
+    "TopPET"
+  ],
+  "PETName": "/Testing/ParametricExploration/TopPET",
+  "MgaFilename": "C:\\Users\\Joseph Coombe\\Documents\\openmeta-PET-changes\\openmeta-PET-changes.mga"
+}
