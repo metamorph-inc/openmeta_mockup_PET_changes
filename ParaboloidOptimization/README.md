@@ -10,7 +10,7 @@ These Problem Inputs each create IndepVarComps `p1` and `p2` and provide a mappi
 
 
 #### Here's an OpenMETA PET 'ParaboloidOptimization' that contains 'ParaboloidProblem'
-![ParaboloidProblem](images/ParaboloidProblem.PNG)
+![ParaboloidProblem](images/ParaboloidOptimization.PNG)
 
 * Notice that ParaboloidProblem's Problem Inputs and Problem Outputs are exposed as ports when it is placed inside another PET
 * ParaboloidOptimizer contains an Optimizer that drives `ParaboloidProblem.x` and `ParaboloidProblem.y` according to the output 
