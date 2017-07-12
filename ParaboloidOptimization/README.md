@@ -146,6 +146,8 @@ if __name__ == '__main__':
         print(data['Parameters'])
 ```
 #### Results:  
+Run `paraboloid_optimization_v1.py`
+
 **NFVALS = 46**  
 **f_xy = -27.333333327685313**  
 at  
