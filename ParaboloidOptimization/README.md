@@ -1,7 +1,7 @@
 # ParaboloidOptimization 
 
 #### Here's an OpenMETA PET 'ParaboloidProblem' that contains a single PythonWrapper Component 'Paraboloid'
-![Paraboloid](images/Paraboloid.PNG)
+![Paraboloid](images/ParaboloidProblem.PNG)
 
 * Two Problem Inputs 'x' and 'y' are connected to Paraboloid's Parameter ports 'x' and 'y' respectively. 
 These Problem Inputs each create IndepVarComps `p1` and `p2` and provide a mapping to `p1.x` and `p2.y`.
