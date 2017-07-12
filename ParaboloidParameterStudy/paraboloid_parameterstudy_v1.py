@@ -1,7 +1,7 @@
 '''
 # Name: paraboloid_parameterstudy_v1.py
 # Company: MetaMorph, Inc.
-# Author(s): Joseph Coombe
+# Author(s): Joseph Coombe, Timothy Thomas
 # Email: jcoombe@metamorphsoftware.com
 # Create Date: 7/12/2017
 # Edit Date: 7/12/2017
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     # Add driver
     ParaboloidParameterStudy.driver = FullFactorialDriver(num_levels=11)
     
-    # Add design variables, objective, and constraints to the parameter study driver
+    # Add design variables and objectives to the parameter study driver
     ParaboloidParameterStudy.driver.add_desvar('p1.x', lower=-50, upper=50)
     ParaboloidParameterStudy.driver.add_desvar('p2.y', lower=-50, upper=50)
     ParaboloidParameterStudy.driver.add_objective('ParaboloidProblem.Paraboloid.f_xy')

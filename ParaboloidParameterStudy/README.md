@@ -19,22 +19,6 @@ of `ParaboloidProblem.f_xy`
 
 #### Here's an OpenMDAO script that expresses the desired behavior of this OpenMETA model
 ```python
-'''
-# Name: paraboloid_parameterstudy_v1.py
-# Company: MetaMorph, Inc.
-# Author(s): Joseph Coombe
-# Email: jcoombe@metamorphsoftware.com
-# Create Date: 7/12/2017
-# Edit Date: 7/12/2017
-
-# Tutorial: Simple parameter study of a paraboloid encapsulated within a SubProblem in OpenMDAO
-#           Adaption of OpenMDAO tutorial: http://openmdao.readthedocs.io/en/1.7.3/usr-guide/tutorials/paraboloid-tutorial.html
-
-# Inputs:
-
-# Outputs:
-'''
-
 from __future__ import print_function
 from openmdao.api import IndepVarComp, Component, Problem, Group
 from openmdao.api import FullFactorialDriver  # FullFactorialDriver driver
