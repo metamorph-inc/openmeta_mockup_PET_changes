@@ -197,7 +197,7 @@ Run `optimization_initialcondition_profiling_v1.py`
 # OptimizationInitialConditionProfilingRepeat
 
 #### Here's an OpenMETA PET 'OptimizationProfiler' that contains 'OptimizationProblem', a Parameter Study, and two PythonWrapper Components 'SaveTime' and 'MeasureTime'
-![OptimizationProfiler](images/ParameterStudy.PNG)
+![OptimizationProfiler](images/ParametricStudy.PNG)
 
 * Notice that a dummy Problem Input 'n' has been added as well as four Problem Outputs 'Time', 'f_xy', 'x_f', and 'y_f'
 
