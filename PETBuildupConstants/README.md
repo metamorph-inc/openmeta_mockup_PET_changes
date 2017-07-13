@@ -1,4 +1,4 @@
-# PETBuildupConstants
+# PET Buildup - Constants
 Incremental buildup of a PET in OpenMETA along with its intended OpenMDAO behavior.
 
 This example focuses on our proposal to add new conditional behavior to the Constants block in OpenMETA, so that connecting a Constants 
