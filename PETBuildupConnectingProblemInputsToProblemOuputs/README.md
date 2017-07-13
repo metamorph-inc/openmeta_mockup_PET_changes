@@ -1,4 +1,4 @@
-# PET Buildup - Connecting Design Variables/Problem Inputs to Problem Outputs
+# PET Buildup - Connecting Problem Inputs/Design Variables to Problem Outputs
 Incremental buildup of a PET in OpenMETA along with its intended OpenMDAO behavior.
 
 This example focuses on our proposed solution to a specific Problem that we encountered in OpenMDAO when trying to connect Problem Inputs to Problem Outputs.
