@@ -12,11 +12,10 @@ else:  # if Constants 'c' is connected to some other port 'system.x' in OpenMETA
   prob.root.add('Constants', IndepVarComp('c', c.getValue())))  # in OpenMDAO
   prob.root.add('system', System())  # in OpenMDAO
   prob.root.connect('Constants.c', 'system.x')  # in OpenMDAO
+  
 ```
-
 ---
-
-## OpenMETA PET 'OptimizerV1' containing an Optimizer and a PythonWrapper Component
+### OpenMETA PET 'OptimizerV1' containing an Optimizer and a PythonWrapper Component
 ![OptimizerV1](images/OptimizerV1.PNG)
 
 ### OpenMDAO interpretation of PET
@@ -92,3 +91,5 @@ if __name__ == '__main__':
         print(data['Unknowns'])
         print(data['Parameters'])
 ```
+
+---
