@@ -16,7 +16,7 @@ else:  # if Constants 'c' is connected to some other port 'system.x' in OpenMETA
 ```
 ---
 ### OpenMETA PET 'OptimizerV1' containing an Optimizer and a PythonWrapper Component
-![OptimizerV1](images/OptimizerV1.PNG)
+![sub](images/sub_v1.PNG)
 
 ### OpenMDAO interpretation of PET
 ```python
