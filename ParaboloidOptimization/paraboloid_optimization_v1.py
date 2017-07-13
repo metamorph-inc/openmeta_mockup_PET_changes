@@ -1,7 +1,7 @@
 '''
 # Name: paraboloid_optimization_v1.py
 # Company: MetaMorph, Inc.
-# Author(s): Joseph Coombe
+# Author(s): Joseph Coombe, Timothy Thomas
 # Email: jcoombe@metamorphsoftware.com
 # Create Date: 7/12/2017
 # Edit Date: 7/12/2017
