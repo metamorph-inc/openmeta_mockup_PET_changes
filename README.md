@@ -13,4 +13,4 @@ OpenMETA Models using new language changes with corresponding OpenMDAO Interpret
 ## [Paraboloid - Part 2: Parameter Study](ParaboloidParameterStudy/)
 
 
-## [Paraboloid - Part 3: Initial Condition Profiling](OptimizationInitialConditionProfiling/)
+## [Optimization - Initial Condition Profiling](OptimizationInitialConditionProfiling/)
