@@ -482,29 +482,3 @@ if __name__ == '__main__':
 
 #### Results:  
 Run `top_v3.py`
-
----
-*Under Construction*
-### OpenMETA PET 'sub_v
-![sub](images/.PNG)
-* 
-
-### OpenMDAO interpretation
-```python
-```
-#### Results:  
-Run `top_v1.py`
-
----
-*Under Construction*
-### OpenMETA PET 'top_v4
-![sub](images/.PNG)
-* 
-
-### OpenMDAO interpretation
-```python
-```
-#### Results:  
-Run `top_v1.py`
-
----
