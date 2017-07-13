@@ -1,10 +1,10 @@
 '''
-# Name: optimizer_v1.py
+# Name: sub_v4.py
 # Company: MetaMorph, Inc.
 # Author(s): Joseph Coombe
 # Email: jcoombe@metamorphsoftware.com
-# Create Date: 7/12/2017
-# Edit Date: 7/12/2017
+# Create Date: 7/13/2017
+# Edit Date: 7/13/2017
 
 # Tutorial: Problem containing an Optimization driver and a Component
 #           Adaption of OpenMDAO tutorial: http://openmdao.readthedocs.io/en/1.7.3/usr-guide/tutorials/paraboloid-tutorial.html
@@ -22,22 +22,24 @@ import sqlitedict
 from pprint import pprint
 
 # PythonWrapper Components
-class Parabola(Component):
-    ''' Evaluates the equation f(x) = (x-3)^2 - 3 '''
+class Paraboloid(Component):
+    ''' Evaluates the equation f(x,y) = (x-3)^2 +xy +(y+4)^2 - 3 '''
 
     def __init__(self):
-        super(Parabola, self).__init__()
+        super(Paraboloid, self).__init__()
         
         self.add_param('x', val=0.0)
+        self.add_param('y', val=0.0)
         
-        self.add_output('f_x', shape=1)
+        self.add_output('f_xy', shape=1)
         
     def solve_nonlinear(self, params, unknowns, resids):
-        ''' f(x) = (x-3)^2 - 3 '''
+        ''' f(x,y) = (x-3)^2 + xy + (y+4)^2 - 3 '''
         
         x = params['x']
+        y = params['y']
         
-        unknowns['f_x'] = (x-3.0)**2 - 3.0
+        unknowns['f_xy'] = (x-3.0)**2 + x*y + (y+4.0)**2 - 3.0
 
         
 if __name__ == '__main__':
@@ -47,16 +49,19 @@ if __name__ == '__main__':
     sub = Problem()
     sub.root = Group()
     
-    # Add the 'Parabola' Component to sub's root Group.
-    sub.root.add('Parabola', Parabola())
+    # Add the 'Paraboloid' Component to sub's root Group.
+    sub.root.add('Paraboloid', Paraboloid())
     
-    # Initialize x as a IndepVarComp and add it to sub's root group as 'p1.x'
-    # run_mdao already does something like this for all driver design variables
-    # p1.x is initialized to 0.0 because the OpenMETA Design Variable 'x' has a range of -50 to +50
-    sub.root.add('p1', IndepVarComp('x', 0.0))  
+    # Add an IndepVarComp c1.y_const for 'Constants->y_const' to sub's root Group.
+    sub.root.add('c1', IndepVarComp('y_const', 10.0))  # normal Constants behavior
     
-    # Connect the IndepVarComp p1.x to Parabola.x
-    sub.root.connect('p1.x', 'Parabola.x')
+    # Initialize x_init as a IndepVarComp and add it to sub's root group as 'p1.x_init'
+    # p1.x_init is initialized to 2.0 because in OpenMETA, the metric 'x_i' (inside the Constants 'InitialValue') was connected to 'x_init'
+    sub.root.add('p1', IndepVarComp('x_init', 2.0))  
+    
+    # Connect components
+    sub.root.connect('p1.x_init', 'Paraboloid.x')
+    sub.root.connect('c1.y_const', 'Paraboloid.y')
     
     # Add driver
     sub.driver = ScipyOptimizer()
@@ -69,8 +74,8 @@ if __name__ == '__main__':
     #sub.driver.opt_settings['catol'] = 0.1         # COBYLA-specific setting. Absolute tolerance for constraint violations. Default: 0.1
     
     # Add design variables, objective, and constraints to the optimization driver
-    sub.driver.add_desvar('p1.x', lower=-50, upper=50)
-    sub.driver.add_objective('Parabola.f_x')
+    sub.driver.add_desvar('p1.x_init', lower=-50, upper=50)
+    sub.driver.add_objective('Paraboloid.f_xy')
     
     
     # Data collection
@@ -79,7 +84,7 @@ if __name__ == '__main__':
     recorder.options['record_metadata'] = True
     sub.driver.add_recorder(recorder)
     
-    # Setup, run, & cleanupt
+    # Setup, run, & cleanup
     sub.setup(check=False)
     sub.run()
     sub.cleanup()
