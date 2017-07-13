@@ -14,6 +14,7 @@ else:  # if Constants 'c' is connected to some other port 'system.x' in OpenMETA
   prob.root.connect('Constants.c', 'system.x')  # in OpenMDAO
   
 ```
+
 ---
 ### OpenMETA PET 'sub_v1' containing an Optimizer and a PythonWrapper Component
 ![sub](images/sub_v1.PNG)
@@ -372,8 +373,119 @@ Run `top_v1.py`
 Run `top_v2.py`
 
 ---
+### OpenMETA PET 'top_v3' - Constants block connected to Problem Input of sub-level PET
+![top](images/top_v3.PNG)
+* Note: This example won't work in OpenMETA since OpenMETA requires that Design Variables be connected to something
+* In this case, since 'TestValue'->'x_init' is connected to the Problem Input of a sub-level PET 'sub_v5', `run_mdao` simply creates an IndepVarComp `c1.x_init`, adds it to `top.root`, and connects `c1.x_init` to `Sub.Paraboloid.x_init`.
+* In the MDAO interpretation, `p1.x_init` will be instantiated with the value of 'sub_v5'->'InitialValues'->'x_i'. However, when run()
+is called, at each iteration of the `top`'s `FullFactorialDriver`, the value of `c1.x_init` will be passed into `Sub.Paraboloid.x_init` since they are connected and used as the initial value for `sub`'s `ScipyOptimizer()`.
+
+### OpenMDAO interpretation
+```python
+from __future__ import print_function
+from openmdao.api import IndepVarComp, Component, Problem, Group
+from openmdao.api import ScipyOptimizer  # Optimizer driver
+from openmdao.api import SqliteRecorder  # Recorder
+from openmdao.api import SubProblem  # Allows for nested drivers - not currently supported in OpenMETA - Introduced in OpenMDAO v.1.7.2.
+from openmdao.api import FullFactorialDriver  # FullFactorialDriver driver
+import sqlitedict
+from pprint import pprint
+
+# PythonWrapper Components
+class Paraboloid(Component):
+    ''' Evaluates the equation f(x,y) = (x-3)^2 +xy +(y+4)^2 - 3 '''
+
+    def __init__(self):
+        super(Paraboloid, self).__init__()
+        
+        self.add_param('x', val=0.0)
+        self.add_param('y', val=0.0)
+        
+        self.add_output('f_xy', shape=1)
+        
+    def solve_nonlinear(self, params, unknowns, resids):
+        ''' f(x,y) = (x-3)^2 + xy + (y+4)^2 - 3 '''
+        
+        x = params['x']
+        y = params['y']
+        
+        unknowns['f_xy'] = (x-3.0)**2 + x*y + (y+4.0)**2 - 3.0
+
+        
+if __name__ == '__main__':
+
+    # Instantiate a Problem 'sub'
+    # Instantiate a Group and add it to sub
+    sub = Problem()
+    sub.root = Group()
+    
+    # Add the 'Paraboloid' Component to sub's root Group.
+    sub.root.add('Paraboloid', Paraboloid())
+    
+    # Add an IndepVarComp c1.y_const for 'Constants->y_const' to sub's root Group.
+    sub.root.add('c1', IndepVarComp('y_const', 10.0))  # normal Constants behavior
+    
+    # Initialize x_init as a IndepVarComp and add it to sub's root group as 'p1.x_init'
+    # p1.x_init is initialized to 2.0 because in OpenMETA, the metric 'x_i' (inside the Constants 'InitialValue') was connected to 'x_init'
+    sub.root.add('p1', IndepVarComp('x_init', 2.0))  
+    
+    # Connect components
+    sub.root.connect('p1.x_init', 'Paraboloid.x')
+    sub.root.connect('c1.y_const', 'Paraboloid.y')
+    
+    # Add driver
+    sub.driver = ScipyOptimizer()
+    
+    # Modify the optimization driver's settings
+    sub.driver.options['optimizer'] = 'COBYLA'      # Type of Optimizer. 'COBYLA' does not require derivatives
+    sub.driver.options['tol'] = 1.0e-4              # Tolerance for termination. Not sure exactly what it represents. Default: 1.0e-6
+    sub.driver.options['maxiter'] = 200             # Maximum iterations. Default: 200
+    #sub.driver.opt_settings['rhobeg'] = 1.0        # COBYLA-specific setting. Initial step size. Default: 1.0
+    #sub.driver.opt_settings['catol'] = 0.1         # COBYLA-specific setting. Absolute tolerance for constraint violations. Default: 0.1
+    
+    # Add design variables, objective, and constraints to the optimization driver
+    sub.driver.add_desvar('p1.x_init', lower=-50, upper=50)
+    sub.driver.add_objective('Paraboloid.f_xy')
+    
+    
+    # Instantiate a Problem 'top'
+    # Instantiate a Group and add it to top
+    top = Problem()
+    top.root = Group()
+    
+    # Add sub to top as a SubProblem called 'Sub' 
+    # Include sub's Problem Inputs and Problem Outputs in 'params' and 'unknowns' fields of SubProblem 
+    top.root.add('Sub', SubProblem(sub, params=['p1.x_init'],
+                                        unknowns=['Paraboloid.f_xy']))  # This is where you designate what to expose to the outside world)
+
+    # Initialize x and y as IndepVarComps and add them to top's root group
+    top.root.add('p1', IndepVarComp('x_init', 0.0))
+    
+    # Add an IndepVarComp c1.x_init for 'Constants->x_init' to top's root Group.
+    top.root.add('c1', IndepVarComp('x_init', 30.0))  # normal Constants behavior
+    
+    # Connections
+    top.root.connect('c1.x_init', 'Sub.p1.x_init')
+    
+    # Add driver
+    top.driver = FullFactorialDriver(num_levels=11)
+        
+    # Add design variables and objectives to the parameter study driver
+    top.driver.add_objective('Sub.Paraboloid.f_xy')
+    
+    # Setup, run, & cleanup
+    top.setup(check=False)
+    top.run()
+    top.cleanup()
+```
+* Note: OpenMDAO is smart. Since the design variable in the Parameter Study isn't driving anything, top's solver will only run a single time.
+
+#### Results:  
+Run `top_v3.py`
+
+---
 *Under Construction*
-### OpenMETA PET 'sub_
+### OpenMETA PET 'sub_v
 ![sub](images/.PNG)
 * 
 
@@ -382,3 +494,17 @@ Run `top_v2.py`
 ```
 #### Results:  
 Run `top_v1.py`
+
+---
+*Under Construction*
+### OpenMETA PET 'top_v4
+![sub](images/.PNG)
+* 
+
+### OpenMDAO interpretation
+```python
+```
+#### Results:  
+Run `top_v1.py`
+
+---
