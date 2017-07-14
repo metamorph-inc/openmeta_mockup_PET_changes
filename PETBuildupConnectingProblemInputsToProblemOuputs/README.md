@@ -1,14 +1,14 @@
 # PET Buildup - Connecting Problem Inputs/Design Variables to Problem Outputs
 Incremental buildup of a PET in OpenMETA along with its intended OpenMDAO behavior.
 
-This example focuses on our proposed solution to a specific Problem that we encountered in OpenMDAO when trying to connect Problem Inputs to Problem Outputs.
+This example focuses on our proposed solution to a specific problem that we encountered in OpenMDAO when trying to connect Problem Inputs to Problem Outputs.
 
 Suppose, inside your 'Vahana' PET, you have a sub-PET 'Optimize' that minimizes total energy use 'E' by optimizing the propeller radius 'rProp'. The 'Vahana' 
 PET also has a Component 'CalculateCost' that takes in two Parameters 'E' and 'rProp' in order to calculate the estimated trip cost 'C'.
 
 Now, there is no problem if inside 'Optimize' the Design Variable 'rProp' is not connected to a Problem Input. You can simply connect
 the Optimizer's Design Variable 'rProp' to a Problem Output within 'Optimize' and `run_mdao` will add the IndepVarComp associated with 'rProp'
-to the SubProblem constructor's list of unknowns (`Vahana.root.add('Optimize', SubProblem('Optimize', params=[], unknowns=['p1.rProp' , '... .E']))).
+to the SubProblem constructor's list of unknowns (`Vahana.root.add('Optimize', SubProblem('Optimize', params=[], unknowns=['p1.rProp' , '... .E'])))`.
 
 However, there is a problem if the Design Variable 'rProp' is connected to a 'Problem Input' inside 'Optimize' since Problem Inputs
 are also exposed in the SubProblem constructor. If you connect the Problem Input 'rProp' to a Problem Output, `run_mdao` will add the IndepVarComp
