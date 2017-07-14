@@ -13,15 +13,15 @@ to the SubProblem constructor's list of unknowns (`Vahana.root.add('Optimize', S
 However, there is a problem if the Design Variable 'rProp' is connected to a 'Problem Input' inside 'Optimize' since Problem Inputs
 are also exposed in the SubProblem constructor. If you connect the Problem Input 'rProp' to a Problem Output, `run_mdao` will add the IndepVarComp
 associated with 'rProp' to both the SubProblem constructor's list of unknowns and params (`Vahana.root.add('Optimize', SubProblem('Optimize', 
-params=['p1.rProp'], unknowns=['p1.rProp' , '... .E']))). Then `open_mdao` will give you an error when it tries to connect `Optimize.p1.rProp` to 
+params=['p1.rProp'], unknowns=['p1.rProp' , '... .E'])))`. Then `open_mdao` will give you an error when it tries to connect `Optimize.p1.rProp` to 
 `CalculateCost.rProp` - `Target 'CalculateCost.rProp' is connected to multiple unknowns: ['Optimize.p1.rProp', 'p1.rProp']`
 
-In OpenMDAO, if you have three Components `foo`, `bar`, and `baz` - each with an input `x` and an output `z` - and you make the following connect statements:
-`prob.root.connect('foo.z', 'bar.x')`
-`prob.root.connect('bar.x', 'baz.x')`
-OpenMDAO will effectively make the following connections:
-`prob.root.connect('foo.z', 'bar.x')`
-`prob.root.connect('foo.z', 'baz.x')`
+In OpenMDAO, if you have three Components `foo`, `bar`, and `baz` - each with an input `x` and an output `z` - and you make the following connect statements:  
+`prob.root.connect('foo.z', 'bar.x')`  
+`prob.root.connect('bar.x', 'baz.x')`  
+OpenMDAO will effectively make the following connections:  
+`prob.root.connect('foo.z', 'bar.x')`  
+`prob.root.connect('foo.z', 'baz.x')`  
 
 Our workaround is to have `run_mdao` create a ExecComp (`Optimize.add('output', ExecComp('rProp = input'))`) for every Problem Input connected to a Problem 
 Output within a PET, connect the Problem Input's associated IndepVarComp to the ExecComp (`Optimize.connect('Optimize.p1.rProp', 'output.input')`), and
