@@ -6,9 +6,9 @@ block to a Problem Input within the same PET will set the initialization value f
 
 psuedo code:
 ```python
-if Constants 'c' is connected to Problem Input 'x' in OpenMETA:
+if (Constants 'c' is connected to Problem Input 'x' in OpenMETA) and (Constants 'c' is in the same OpenMETA PET as Problem Input 'x'):
   prob.root.add('ProblemInput', IndepVarComp('x', c.getValue()))  # in OpenMDAO
-else:  # if Constants 'c' is connected to some other port 'system.x' in OpenMETA:
+else:  # (if Constants 'c' is connected to some other port 'system.x' in OpenMETA)
   prob.root.add('Constants', IndepVarComp('c', c.getValue())))  # in OpenMDAO
   prob.root.add('system', System())  # in OpenMDAO
   prob.root.connect('Constants.c', 'system.x')  # in OpenMDAO
