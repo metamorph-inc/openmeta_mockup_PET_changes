@@ -249,7 +249,8 @@ Run `sub_v4.py`
 
 ---
 ### OpenMETA PET 'top_v1' containing 'sub_v4' and a Parameter Study
-* We've no placed 'sub_v4' inside another PET 'top_v1'. 'top_v1' will vary the initial value of the sup-PET's optimizer design variable 'x_init'.
+* We've now placed 'sub_v4' inside another PET 'top_v1'. 'top_v1' will vary the initial value of the sup-PET's optimizer design variable 'x_init'.
+* We won't be able to get any data out of 'sub_v4' because it lacks a Problem Output that we can connect to the Parameter Study in 'top_v1.'
 
 ![top](images/top_v1.PNG)
 
