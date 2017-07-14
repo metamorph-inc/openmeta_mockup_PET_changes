@@ -28,7 +28,6 @@ Output within a PET, connect the Problem Input's associated IndepVarComp to the 
 and add that ExecComp's output to the SubProblem constructor's list of unknowns (`Vahana.root.add('Optimize', SubProblem('Optimize', params=['p1.rProp'], 
 unknowns=['output.rProp' , '... .E']))`). This is pretty hacky so if anyone has a better idea, I'm all ears.
 
-*Under Construction*
 ---
 ### OpenMETA PET with Optimizer, PythonWrapper Component, and multiple Problem Inputs/Outputs
 ![sub](images/sub_v1.PNG)
